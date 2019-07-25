@@ -98,6 +98,14 @@ cat ~/.bash_history | sort | uniq -c | sort -nr | head
 ```
 Which works differently and gives different results
 
+## CLOC to analyze elements (directories, tar.gz, etc.)
+
+```
+sudo apt-get install cloc
+install-cloc.sh
+
+> cloc archive.tar.gz
+```
 
 ## Useful tools:
 
@@ -149,7 +157,9 @@ type ls
 
 ## Useful command for steganography:
 
+```
 eog [path image]
+```
 > Open image with image viewer
 lsof : liste les processus écoutant sur un port ou un service 
 
