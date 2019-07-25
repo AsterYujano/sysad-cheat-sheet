@@ -12,7 +12,14 @@ lsof -i :80
 # List every process listening on port 80
 
 lsof -i :http
-Do the same
+# Do the same
+
+awk 'NR>1 {print &2}'
+# Takes every lines except the first one.
+# print the tabulation number 2 (second column)
+ 
+[...] | xargs [...]
+# xargs applies the following command to the arguments, which is `kill` in this case.
 ```
 
 ## Modify pattern/expression on several files (grep + sed)
@@ -38,8 +45,26 @@ sed -i -e "s#/var/www/html#/var/sites#g"
 # Adding the `#` permits to do not escape the `/` character.
 ```
 
+## Search and archive in a file
 
-## Useful tools
+```
+find . -name "*.sh" | cpio -o --format=tar > compil.tar
+```
+
+```
+find . -name "*.sh"
+# Search from the current directory all .sh files
+
+cpio -o --format=tar > compil.tar
+# Deal with archives (Give some files to eat to cpio, it will archive it in the compil.tar file)
+```
+
+```
+tar -tf compil.tar
+# -tf get the archive file and read/list files into it.
+```
+
+## Useful tools:
 
 ### Grep
 ```
@@ -63,11 +88,21 @@ tree
 ```
 show directories and files as a tree.
 
-## Useful command for steganography :
+### Type
+
+```
+type [...]
+
+type ls
+# indicate if the command is intern or not.
+```
+
+
+## Useful command for steganography:
 
 eog [path image]
 > Open image with image viewer
 lsof : liste les processus écoutant sur un port ou un service 
 
-## Sources :
+## Sources:
 Xavki sysad 
