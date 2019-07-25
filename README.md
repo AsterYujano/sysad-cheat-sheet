@@ -107,6 +107,30 @@ install-cloc.sh
 > cloc archive.tar.gz
 ```
 
+## Top 10 cpu usage processes
+
+```
+ps aux | sort -nrk 3,3 | head -n 10
+```
+verbose way
+
+```
+ps -eo pcpu,pid,user,args --no-headers | \
+sort -t. -nk1,2 -k4,4 -r | \
+head -n 10 | \
+awk '{print "\t"$1"\t"$2"\t"$3"\t    "$4}'
+
+# ps
+# -e : to have the whole processes
+# -o : to filter some columns (pcpu,pid,user,args)
+
+```
+Cleaner way
+
+__TODO : explications__
+
+
+
 ## Useful tools:
 
 ### Awk
