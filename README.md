@@ -3,7 +3,7 @@
 ## List listening process and select which ones to kill (lsof + awk)
 
 ```
-sudo lsof -i :80 | awk 'NR>1 {print &2}' | xargs sudo kill 
+sudo lsof -i :80 | awk 'NR>1 {print $2}' | xargs sudo kill 
 ```
 Liste les processus écoutant sur le port 80, récupéré le "pid" avec awk, il prend toutes les lignes sauf la première, et récupéré la colonne après 2 tabulations. Puis kill les "pid" listés.
 
@@ -14,7 +14,7 @@ lsof -i :80
 lsof -i :http
 # Do the same
 
-awk 'NR>1 {print &2}'
+awk 'NR>1 {print $2}'
 # Takes every lines except the first one.
 # print the tabulation number 2 (second column)
  
@@ -23,7 +23,6 @@ awk 'NR>1 {print &2}'
 ```
 
 ## Modify pattern/expression on several files (grep + sed)
-
 
 ```
 grep -lR "/var/www/html" | xargs sed -i -e "s#/var/www/html#/var/sites#g"
@@ -64,7 +63,57 @@ tar -tf compil.tar
 # -tf get the archive file and read/list files into it.
 ```
 
+## HttpServer with Python in 1 line (not secure)
+
+```
+python3 -m http.server 9999
+#  open web server on the 9999 port
+```
+
+```
+curl http://example.com:9999/.passwd
+wget http://example.com:9999/.passwd
+```
+
+## Create a top 10 of your commands based on the history
+
+Useful to know when to use alias with most used commands
+```
+cat ~/.bash_history | awk `{a[$1" "$2]++}END{for(i in a){print a[i] " " i}}` | sort -nr | head
+
+# {a[$1]++} create a table key-value with the string of the 1st column as key and the number of the string as value.
+# in a list with 503 times the command "ls", it would have been "ls-503 times"
+# {a[$1" "$2]++} does the same with the value of the column 1 & 2
+#
+# for(i in a) For each entry in the table, do:
+# {print a[i] " " i} Print ls - 504
+#
+# sort -nr : sort number and reverse
+#
+# head : takes first 10 entries
+```
+Or 
+```
+cat ~/.bash_history | sort | uniq -c | sort -nr | head
+```
+Which works differently and gives different results
+
+
 ## Useful tools:
+
+### Awk
+
+```
+smth.... | awk `{print $1}`
+# Print first column of "smth"
+
+smth.... | awk `{print $1" "$2}`
+# Print first & second column of "smth"
+
+smth.... | awk `NR>1 {print $1}`
+# NR>1 select every line with id more than 1 (which means, not the 1st one).
+# and print the first tab.
+```
 
 ### Grep
 ```
